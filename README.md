@@ -32,5 +32,5 @@ cmake --build .
 ```
 
 ## Limitations
-- Currently only small files are supported (a few kiB max)
+- Trying to view large files at once causes performace issues, use of offset suggested
 - The autoupdate interval is OS dependant as it checks for the last file change (1 second resolution on Windows) 
