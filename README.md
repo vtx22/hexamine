@@ -6,7 +6,7 @@ hexamine is a graphical viewer for binary files using [SFML](https://github.com/
 ## Features
 - Binary file visualization
 - Zoom and byte ordering options
-- Autoupdate after file change
+- Autoupdate after file change (see [Limitations](#limitations))
 - Highlight bytes on hover (ToDo)
 - Different colormaps (ToDo)
 - Textual byte and ASCII viewer (ToDo)
@@ -30,3 +30,7 @@ cmake <path-to-cloned-repo> -D LINK_DEPS_STATIC=ON
 cmake --build .
 .\src\Debug\hexamine.exe
 ```
+
+## Limitations
+- Trying to view large files at once causes performace issues, use of offset suggested
+- The autoupdate interval is OS dependant as it checks for the last file change (1 second resolution on Windows) 
