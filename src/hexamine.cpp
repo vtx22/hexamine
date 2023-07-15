@@ -8,8 +8,6 @@
 #include "imgui-SFML.h"
 #include "imgui.h"
 
-sf::Color background(20, 20, 20);
-
 int main(int argc, char *argv[])
 {
     sf::RenderWindow window(sf::VideoMode(1280, 720), "hexamine - binary file viewer");
@@ -27,6 +25,9 @@ int main(int argc, char *argv[])
     sf::Clock deltaClock;
     while (window.isOpen())
     {
+        static float zoom = 0.3;
+        static float zoom_speed = 0.02;
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -35,6 +36,26 @@ int main(int argc, char *argv[])
             if (event.type == sf::Event::Closed)
             {
                 window.close();
+            }
+
+            if (event.type == sf::Event::MouseWheelMoved)
+            {
+                zoom += event.mouseWheel.delta * zoom_speed;
+
+                if (zoom > 1)
+                {
+                    zoom = 1;
+                }
+                if (zoom < 0)
+                {
+                    zoom = 0;
+                }
+
+                bp.set_zoom(zoom);
+            }
+            if (event.type == sf::Event::MouseMoved)
+            {
+                bp.set_mouse_pos(sf::Vector2f(event.mouseMove.x, event.mouseMove.y));
             }
         }
 
@@ -48,41 +69,42 @@ int main(int argc, char *argv[])
                 if (ImGui::MenuItem("Open..", "Ctrl+O"))
                 { /* Do stuff */
                 }
-                if (ImGui::MenuItem("Save", "Ctrl+S"))
-                { /* Do stuff */
-                }
-                if (ImGui::MenuItem("Close", "Ctrl+W"))
-                {
-                }
                 ImGui::EndMenu();
             }
             ImGui::EndMainMenuBar();
         };
         ImGui::Begin("Settings");
 
-        static float zoom = 0;
+        ImGui::SliderFloat("Zoom speed", &zoom_speed, 0.001, 0.1);
+
         if (ImGui::SliderFloat("Zoom", &zoom, 0, 1))
         {
             bp.set_zoom(zoom);
         }
-        static int bpr = 0;
+        static int bpr = 32;
         if (ImGui::InputInt("Blocks/Row", &bpr))
         {
             bp.set_blocks_per_row(bpr);
+        }
+        static bool enable_highlight = true;
+        if (ImGui::Checkbox("Hover highlight", &enable_highlight))
+        {
         }
 
         ImGui::Separator();
         if (ImGui::Button("Update Binary"))
         {
+            bp.refresh_file();
         }
         static bool auto_update = false;
 
         if (ImGui::Checkbox("Auto Update", &auto_update))
         {
+            bp.set_auto_update(auto_update);
         }
         ImGui::End();
 
-        window.clear(background);
+        window.clear(sf::Color(20, 20, 20));
         bp.update();
         ImGui::SFML::Render(window);
         window.display();

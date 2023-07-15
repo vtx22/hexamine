@@ -6,12 +6,17 @@
 #include <fstream>
 #include <cstdint>
 #include <iostream>
+#include <filesystem>
+#include <chrono>
 
 #include "color_lookup.h"
 
 #include <SFML/Graphics.hpp>
 
+using namespace std::chrono_literals;
+
 #define MAX_BLOCK_SIZE 100
+#define MIN_HIGHLIGHT_BORDER 2
 
 class Blockplot
 {
@@ -27,20 +32,29 @@ public:
 
    void update();
 
+   void set_auto_update(bool auto_update);
    void set_zoom(float zoom);
    void set_blocks_per_row(int bpr);
    void set_file_path(std::string path);
    void set_main_menu_height(uint16_t height);
+   void set_mouse_pos(sf::Vector2f pos);
 
 private:
    std::vector<uint8_t> _bin;
 
-   bool _update = true;
+   void show_highlight(sf::Vector2f block_pos, uint32_t address, uint8_t value);
 
-   uint16_t _blocks_per_row = 1;
+   bool _update = true;
+   bool _auto_update = false;
+
+   uint16_t _blocks_per_row = 32;
    uint16_t _main_menu_height = 0;
 
-   uint8_t _block_size = 10;
+   uint8_t _block_size = MAX_BLOCK_SIZE * 0.3;
+
+   std::time_t _last_edit = 0;
+
+   sf::Vector2f _mouse;
 
    std::string _path;
    sf::RenderWindow *_window;

@@ -52,6 +52,24 @@ bool Blockplot::refresh_file()
 
 void Blockplot::update()
 {
+   if (_auto_update)
+   {
+
+      // Get file last modified time
+      std::filesystem::file_time_type ftime = std::filesystem::last_write_time(std::filesystem::path(_path));
+
+      const auto systemTime = std::chrono::clock_cast<std::chrono::system_clock>(ftime);
+      const auto time = std::chrono::system_clock::to_time_t(systemTime);
+
+      if (_last_edit < time)
+      {
+         if (refresh_file())
+         {
+            _last_edit = time;
+         }
+      }
+   }
+
    plot_blocks_grid(_bin, _blocks_per_row);
 }
 
@@ -80,9 +98,26 @@ void Blockplot::plot_blocks_grid(const std::vector<uint8_t> &data, uint16_t bloc
    uint32_t y_offset = 0;
    uint32_t xpos = 0;
 
-   for (auto const &b : data)
+   sf::Vector2f highlight_pos;
+   uint8_t highlight_value = 0;
+   uint64_t hightlight_add = 0;
+   bool has_highlight = false;
+
+   for (uint64_t i = 0; i < data.size(); i++)
    {
-      plot_block(b, sf::Vector2f(xpos, _main_menu_height + y_offset));
+      sf::Vector2f block_pos(xpos, _main_menu_height + y_offset);
+      plot_block(data.at(i), block_pos);
+
+      if (_mouse.x >= block_pos.x && _mouse.x < block_pos.x + _block_size)
+      {
+         if (_mouse.y >= block_pos.y && _mouse.y < block_pos.y + _block_size)
+         {
+            highlight_pos = block_pos;
+            highlight_value = data.at(i);
+            hightlight_add = i;
+            has_highlight = true;
+         }
+      }
 
       xpos += _block_size;
       block_count++;
@@ -94,6 +129,28 @@ void Blockplot::plot_blocks_grid(const std::vector<uint8_t> &data, uint16_t bloc
          y_offset += _block_size;
       }
    }
+   if (has_highlight)
+   {
+      show_highlight(highlight_pos, hightlight_add, highlight_value);
+   }
+}
+
+void Blockplot::show_highlight(sf::Vector2f block_pos, uint32_t address, uint8_t value)
+{
+   sf::RectangleShape rect(sf::Vector2f(_block_size, _block_size));
+   rect.setPosition(block_pos);
+
+   rect.setFillColor(sf::Color(0, 0, 0, 0));
+   float outline = 0.05 * _block_size;
+   rect.setOutlineThickness((outline > MIN_HIGHLIGHT_BORDER) ? outline : MIN_HIGHLIGHT_BORDER);
+   rect.setOutlineColor(sf::Color(255, 255, 255, 255));
+
+   _window->draw(rect);
+}
+
+void Blockplot::set_mouse_pos(sf::Vector2f pos)
+{
+   _mouse = pos;
 }
 
 void Blockplot::set_blocks_per_row(int bpr)
@@ -104,6 +161,11 @@ void Blockplot::set_blocks_per_row(int bpr)
    }
 
    _blocks_per_row = bpr;
+}
+
+void Blockplot::set_auto_update(bool auto_update)
+{
+   _auto_update = auto_update;
 }
 
 void Blockplot::set_zoom(float zoom)
