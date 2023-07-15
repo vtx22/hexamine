@@ -13,7 +13,7 @@ hexamine is a graphical viewer for binary files using [SFML](https://github.com/
 - Traverse file with mouse dragging (ToDo)
 
 ## How to use
-Download and run the `hexamine.exe` from your command line. Pass the path to your binary file as the first argument:
+Download and run `hexamine.exe` from your command line. Pass the path to your binary file as the first argument:
 ```sh
 .\hexamine.exe <path-to-bin>
 ```
