@@ -4,6 +4,9 @@ install(TARGETS hexamine
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
+# For std::filesystem support used by blockplot
+set_target_properties(hexamine PROPERTIES CXX_STANDARD 20)
+
 # Installing is not easy, when we're dealing with shared libs
 if(NOT LINK_DEPS_STATIC)
   set_target_properties(hexamine PROPERTIES
