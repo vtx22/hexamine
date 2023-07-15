@@ -16,7 +16,7 @@
 using namespace std::chrono_literals;
 
 #define MAX_BLOCK_SIZE 100
-#define MIN_HIGHLIGHT_BORDER 2
+#define MIN_HIGHLIGHT_BORDER 3
 
 class Blockplot
 {
@@ -51,6 +51,7 @@ public:
 private:
    std::vector<uint8_t> _bin;
 
+   sf::Vector2f calculate_highlight_block(sf::Vector2f mouse_pos);
    void show_highlight(sf::Vector2f block_pos, uint32_t address, uint8_t value);
 
    bool _update = true;

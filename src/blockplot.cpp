@@ -98,26 +98,10 @@ void Blockplot::plot_blocks_grid(const std::vector<uint8_t> &data, uint16_t bloc
    uint32_t y_offset = 0;
    uint32_t xpos = 0;
 
-   sf::Vector2f highlight_pos;
-   uint8_t highlight_value = 0;
-   uint64_t hightlight_add = 0;
-   bool has_highlight = false;
-
    for (uint64_t i = 0; i < data.size(); i++)
    {
       sf::Vector2f block_pos(xpos, _main_menu_height + y_offset);
       plot_block(data.at(i), block_pos);
-
-      if (_mouse.x >= block_pos.x && _mouse.x < block_pos.x + _block_size)
-      {
-         if (_mouse.y >= block_pos.y && _mouse.y < block_pos.y + _block_size)
-         {
-            highlight_pos = block_pos;
-            highlight_value = data.at(i);
-            hightlight_add = i;
-            has_highlight = true;
-         }
-      }
 
       xpos += _block_size;
       block_count++;
@@ -129,22 +113,20 @@ void Blockplot::plot_blocks_grid(const std::vector<uint8_t> &data, uint16_t bloc
          y_offset += _block_size;
       }
 
+      // Don't plot blocks out of view
       if (y_offset > _window->getSize().y)
       {
          break;
       }
    }
-   if (has_highlight)
-   {
-      show_highlight(highlight_pos, hightlight_add, highlight_value);
-      _selected_val = highlight_value;
-      _selected_add = hightlight_add;
-   }
+
+   sf::Vector2f highlight_pos = calculate_highlight_block(_mouse);
+   show_highlight(highlight_pos, _selected_add, _selected_val);
 }
 
 void Blockplot::show_highlight(sf::Vector2f block_pos, uint32_t address, uint8_t value)
 {
-   if (!_hover_highlight)
+   if (!_hover_highlight || block_pos.x < 0 || block_pos.y < 0)
    {
       return;
    }
@@ -157,6 +139,32 @@ void Blockplot::show_highlight(sf::Vector2f block_pos, uint32_t address, uint8_t
    rect.setOutlineThickness((outline > MIN_HIGHLIGHT_BORDER) ? outline : MIN_HIGHLIGHT_BORDER);
    rect.setOutlineColor(sf::Color(255, 255, 255, 255));
    _window->draw(rect);
+}
+
+sf::Vector2f Blockplot::calculate_highlight_block(sf::Vector2f mouse_pos)
+{
+
+   uint16_t col = mouse_pos.x / _block_size;
+   uint16_t row = mouse_pos.y / _block_size;
+
+   uint16_t x = col * _block_size;
+   uint16_t y = row * _block_size;
+
+   if (col > _blocks_per_row - 1 || row * _blocks_per_row + col > _bin.size())
+   {
+      return {-1, -1};
+   }
+
+   _selected_add = row * _blocks_per_row + col;
+
+   std::cout << "Mouse: (" << mouse_pos.x << "," << mouse_pos.y << ")\n";
+   std::cout << "Row: " << row << " Col: " << col << std::endl;
+   std::cout << "x: " << x << " y: " << x << std::endl;
+   std::cout << "Add: " << _selected_add << std::endl;
+
+   _selected_val = _bin.at(_selected_add);
+
+   return {(float)x, (float)y};
 }
 
 void Blockplot::set_hover_highlight(bool hover_highlight)
