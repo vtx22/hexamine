@@ -1,5 +1,5 @@
 # hexamine
-hexamine is a graphical viewer for binary files using [SFML](https://github.com/SFML/SFML) and [Dear ImGui](https://github.com/ocornut/imgui)\
+hexamine is a graphical viewer for binary files using [SFML](https://github.com/SFML/SFML) and [Dear ImGui](https://github.com/ocornut/imgui)
 
 ![Hexamine Autoupdate](img/hexamine-autoupdate.gif)
 
