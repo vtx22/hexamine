@@ -150,17 +150,12 @@ sf::Vector2f Blockplot::calculate_highlight_block(sf::Vector2f mouse_pos)
    uint16_t x = col * _block_size;
    uint16_t y = row * _block_size;
 
-   if (col > _blocks_per_row - 1 || row * _blocks_per_row + col > _bin.size())
+   if (col > _blocks_per_row - 1 || row * _blocks_per_row + col > _bin.size() - 1)
    {
       return {-1, -1};
    }
 
    _selected_add = row * _blocks_per_row + col;
-
-   std::cout << "Mouse: (" << mouse_pos.x << "," << mouse_pos.y << ")\n";
-   std::cout << "Row: " << row << " Col: " << col << std::endl;
-   std::cout << "x: " << x << " y: " << x << std::endl;
-   std::cout << "Add: " << _selected_add << std::endl;
 
    _selected_val = _bin.at(_selected_add);
 

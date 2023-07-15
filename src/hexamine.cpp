@@ -8,9 +8,12 @@
 #include "imgui-SFML.h"
 #include "imgui.h"
 
+#define VERSION "v1.0"
+
 int main(int argc, char *argv[])
 {
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "hexamine - binary file viewer");
+    std::string win_title = std::string("hexamine - ") + VERSION;
+    sf::RenderWindow window(sf::VideoMode(1280, 720), win_title);
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
     ImGui::SFML::Init(window);
