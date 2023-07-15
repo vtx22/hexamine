@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 {
     sf::RenderWindow window(sf::VideoMode(1280, 720), "hexamine - binary file viewer");
     window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
     ImGui::SFML::Init(window);
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     Blockplot bp(&window);
@@ -38,6 +39,13 @@ int main(int argc, char *argv[])
                 window.close();
             }
 
+            if (event.type == sf::Event::Resized)
+            {
+                // update the view to the new size of the window
+                sf::FloatRect visibleArea(0.f, 0.f, event.size.width, event.size.height);
+                window.setView(sf::View(visibleArea));
+            }
+
             if (event.type == sf::Event::MouseWheelMoved)
             {
                 zoom += event.mouseWheel.delta * zoom_speed;
@@ -60,19 +68,20 @@ int main(int argc, char *argv[])
         }
 
         ImGui::SFML::Update(window, deltaClock.restart());
-
+        /*
         if (ImGui::BeginMainMenuBar())
         {
             bp.set_main_menu_height((uint16_t)ImGui::GetWindowSize().y);
             if (ImGui::BeginMenu("File"))
             {
                 if (ImGui::MenuItem("Open..", "Ctrl+O"))
-                { /* Do stuff */
+                {
                 }
                 ImGui::EndMenu();
             }
             ImGui::EndMainMenuBar();
-        };
+        }
+        */
         ImGui::Begin("Settings");
 
         ImGui::SliderFloat("Zoom speed", &zoom_speed, 0.001, 0.1);

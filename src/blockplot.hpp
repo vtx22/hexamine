@@ -55,6 +55,7 @@ private:
    std::time_t _last_edit = 0;
 
    sf::Vector2f _mouse;
+   sf::Font _font;
 
    std::string _path;
    sf::RenderWindow *_window;

@@ -144,7 +144,6 @@ void Blockplot::show_highlight(sf::Vector2f block_pos, uint32_t address, uint8_t
    float outline = 0.05 * _block_size;
    rect.setOutlineThickness((outline > MIN_HIGHLIGHT_BORDER) ? outline : MIN_HIGHLIGHT_BORDER);
    rect.setOutlineColor(sf::Color(255, 255, 255, 255));
-
    _window->draw(rect);
 }
 
