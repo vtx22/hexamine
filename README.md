@@ -3,7 +3,7 @@ hexamine is a graphical viewer for binary files using [SFML](https://github.com/
 
 ![Hexamine Autoupdate](img/hexamine-autoupdate.gif)
 
-SFML backend support for ImGui is archieved with [ImGui SFML](https://github.com/SFML/imgui-sfml). The cmake files were taken from this [ImGui Fetchcontent example](https://github.com/eliasdaler/imgui-sfml-fetchcontent)
+SFML backend support for ImGui is archieved with [ImGui SFML](https://github.com/SFML/imgui-sfml). The cmake files were taken from this [ImGui Fetchcontent example](https://github.com/eliasdaler/imgui-sfml-fetchcontent).
 
 ## How to use
 Download and run the `hexamine.exe` from your command line. Pass the path to your binary file as the first argument:
