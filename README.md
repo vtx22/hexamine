@@ -33,4 +33,4 @@ cmake --build .
 
 ## Limitations
 - Trying to view large files at once causes performace issues, use of offset suggested
-- The autoupdate interval is OS dependant as it checks for the last file change (1 second resolution on Windows) 
+- The autoupdate interval is OS dependent as it checks for the last file change (1 second resolution on Windows) 
