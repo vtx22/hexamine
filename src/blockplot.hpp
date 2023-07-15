@@ -32,12 +32,21 @@ public:
 
    void update();
 
+   static std::string get_ascii_string(uint8_t c);
+
+   void set_hover_highlight(bool hover_highlight);
    void set_auto_update(bool auto_update);
    void set_zoom(float zoom);
    void set_blocks_per_row(int bpr);
    void set_file_path(std::string path);
    void set_main_menu_height(uint16_t height);
    void set_mouse_pos(sf::Vector2f pos);
+
+   uint64_t get_total_size();
+
+   uint8_t get_selected_value();
+   uint64_t get_selected_address();
+   uint64_t get_last_edit();
 
 private:
    std::vector<uint8_t> _bin;
@@ -46,9 +55,13 @@ private:
 
    bool _update = true;
    bool _auto_update = false;
+   bool _hover_highlight = true;
 
    uint16_t _blocks_per_row = 32;
    uint16_t _main_menu_height = 0;
+
+   uint8_t _selected_val;
+   uint64_t _selected_add;
 
    uint8_t _block_size = MAX_BLOCK_SIZE * 0.3;
 

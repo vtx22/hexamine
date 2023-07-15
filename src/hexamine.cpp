@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
         }
         */
         ImGui::Begin("Settings");
-
+        ImGui::Text("Viewport");
         ImGui::SliderFloat("Zoom speed", &zoom_speed, 0.001, 0.1);
 
         if (ImGui::SliderFloat("Zoom", &zoom, 0, 1))
@@ -91,6 +91,7 @@ int main(int argc, char *argv[])
             bp.set_zoom(zoom);
         }
         static int bpr = 32;
+        ImGui::Text("Block Display");
         if (ImGui::InputInt("Blocks/Row", &bpr))
         {
             bp.set_blocks_per_row(bpr);
@@ -98,19 +99,34 @@ int main(int argc, char *argv[])
         static bool enable_highlight = true;
         if (ImGui::Checkbox("Hover highlight", &enable_highlight))
         {
+            bp.set_hover_highlight(enable_highlight);
         }
 
         ImGui::Separator();
+        ImGui::Text("File Reading");
         if (ImGui::Button("Update Binary"))
         {
             bp.refresh_file();
         }
         static bool auto_update = false;
+        ImGui::SameLine();
 
         if (ImGui::Checkbox("Auto Update", &auto_update))
         {
             bp.set_auto_update(auto_update);
         }
+        ImGui::End();
+
+        ImGui::Begin("File info");
+        ImGui::Value("Total size", (unsigned int)bp.get_total_size());
+        ImGui::Value("Last Update", (unsigned int)bp.get_last_edit());
+        ImGui::Separator();
+        uint8_t val = bp.get_selected_value();
+        ImGui::Value("Selected Value", (unsigned int)val);
+        ImGui::SameLine();
+        std::string s = bp.get_ascii_string(val);
+        ImGui::Text("(%s)", s.c_str());
+        ImGui::Value("Selected Address", (unsigned int)bp.get_selected_address());
         ImGui::End();
 
         window.clear(sf::Color(20, 20, 20));

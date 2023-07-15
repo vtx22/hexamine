@@ -128,15 +128,27 @@ void Blockplot::plot_blocks_grid(const std::vector<uint8_t> &data, uint16_t bloc
          block_count = 0;
          y_offset += _block_size;
       }
+
+      if (y_offset > _window->getSize().y)
+      {
+         break;
+      }
    }
    if (has_highlight)
    {
       show_highlight(highlight_pos, hightlight_add, highlight_value);
+      _selected_val = highlight_value;
+      _selected_add = hightlight_add;
    }
 }
 
 void Blockplot::show_highlight(sf::Vector2f block_pos, uint32_t address, uint8_t value)
 {
+   if (!_hover_highlight)
+   {
+      return;
+   }
+
    sf::RectangleShape rect(sf::Vector2f(_block_size, _block_size));
    rect.setPosition(block_pos);
 
@@ -145,6 +157,11 @@ void Blockplot::show_highlight(sf::Vector2f block_pos, uint32_t address, uint8_t
    rect.setOutlineThickness((outline > MIN_HIGHLIGHT_BORDER) ? outline : MIN_HIGHLIGHT_BORDER);
    rect.setOutlineColor(sf::Color(255, 255, 255, 255));
    _window->draw(rect);
+}
+
+void Blockplot::set_hover_highlight(bool hover_highlight)
+{
+   _hover_highlight = hover_highlight;
 }
 
 void Blockplot::set_mouse_pos(sf::Vector2f pos)
@@ -180,4 +197,44 @@ void Blockplot::set_file_path(std::string path)
 void Blockplot::set_main_menu_height(uint16_t height)
 {
    _main_menu_height = height;
+}
+
+uint64_t Blockplot::get_total_size()
+{
+   return _bin.size();
+}
+
+uint8_t Blockplot::get_selected_value()
+{
+   return _selected_val;
+}
+
+uint64_t Blockplot::get_selected_address()
+{
+   return _selected_add;
+}
+
+uint64_t Blockplot::get_last_edit()
+{
+   return _last_edit;
+}
+
+std::string Blockplot::get_ascii_string(uint8_t c)
+{
+   if (c == 0)
+   {
+      return "\\0";
+   }
+   else if (c < 32 || c == 127)
+   {
+      return " ";
+   }
+   else if (c >= 128 && c <= 255)
+   {
+      return "ExASCII";
+   }
+   else
+   {
+      return std::string(1, static_cast<char>(c));
+   }
 }
