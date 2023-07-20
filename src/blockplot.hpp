@@ -38,6 +38,7 @@ public:
    void set_auto_update(bool auto_update);
    void set_zoom(float zoom);
    void set_blocks_per_row(int bpr);
+   void set_block_offset(uint32_t offset);
    void set_file_path(std::string path);
    void set_main_menu_height(uint16_t height);
    void set_mouse_pos(sf::Vector2f pos);
@@ -59,6 +60,7 @@ private:
    bool _hover_highlight = true;
 
    uint16_t _blocks_per_row = 32;
+   uint32_t _block_offset = 0;
    uint16_t _main_menu_height = 0;
 
    uint8_t _selected_val;

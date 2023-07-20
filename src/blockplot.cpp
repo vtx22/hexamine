@@ -9,6 +9,7 @@ std::vector<uint8_t> Blockplot::read_binary_file(std::string path)
 
    if (path.length() == 0)
    {
+      std::cout << "No path to .bin file provided! " << path << std::endl;
       return std::vector<uint8_t>(0);
    }
 
@@ -98,7 +99,7 @@ void Blockplot::plot_blocks_grid(const std::vector<uint8_t> &data, uint16_t bloc
    uint32_t y_offset = 0;
    uint32_t xpos = 0;
 
-   for (uint64_t i = 0; i < data.size(); i++)
+   for (uint64_t i = _block_offset; i < data.size(); i++)
    {
       sf::Vector2f block_pos(xpos, _main_menu_height + y_offset);
       plot_block(data.at(i), block_pos);
@@ -170,6 +171,11 @@ void Blockplot::set_hover_highlight(bool hover_highlight)
 void Blockplot::set_mouse_pos(sf::Vector2f pos)
 {
    _mouse = pos;
+}
+
+void Blockplot::set_block_offset(uint32_t offset)
+{
+   _block_offset = offset;
 }
 
 void Blockplot::set_blocks_per_row(int bpr)
