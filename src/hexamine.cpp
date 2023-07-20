@@ -99,6 +99,12 @@ int main(int argc, char *argv[])
         {
             bp.set_blocks_per_row(bpr);
         }
+        static int offs = 32;
+        ImGui::Text("Block Offset");
+        if (ImGui::InputInt("Offset", &offs))
+        {
+            bp.set_block_offset((uint32_t)offs);
+        }
         static bool enable_highlight = true;
         if (ImGui::Checkbox("Hover highlight", &enable_highlight))
         {
