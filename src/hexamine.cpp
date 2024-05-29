@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
     io.Fonts->AddFontFromFileTTF("opensans.ttf", 20);
     if (!ImGui::SFML::UpdateFontTexture())
     {
-        std::cout << "Could not load font!\n";
+        std::cerr << "Could not load font!\n";
         return -1;
     }
 
@@ -146,6 +146,7 @@ int main(int argc, char *argv[])
             {
                 ImPlotAxisFlags axes_flags = (grid_lines ? 0 : ImPlotAxisFlags_NoGridLines);
                 ImPlot::SetupAxes(NULL, NULL, axes_flags, axes_flags);
+
                 ImPlot::SetupAxisTicks(ImAxis_X1, 0.5, cols - 0.5, cols, xs_ticks.data());
                 ImPlot::SetupAxisTicks(ImAxis_Y1, 0.5, rows - 0.5, rows, ys_ticks.data());
 
