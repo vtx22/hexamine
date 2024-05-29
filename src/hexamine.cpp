@@ -137,9 +137,6 @@ int main(int argc, char *argv[])
             ImGui::EndMainMenuBar();
         }
 
-        static ImPlotColormap map = ImPlotColormap_Plasma;
-        ImPlot::PushColormap(map);
-
         if (ImGui::Begin("Plot"))
         {
             if (ImPlot::BeginPlot("Data", ImVec2(-1, -1), ImPlotFlags_NoMouseText | (lock_aspect ? ImPlotFlags_Equal : 0)))
@@ -158,8 +155,6 @@ int main(int argc, char *argv[])
             }
         }
         ImGui::End();
-
-        ImPlot::PopColormap();
 
         if (data.size() == 0)
         {
@@ -198,6 +193,8 @@ int main(int argc, char *argv[])
                 calculate_new_ticks();
             }
             ImGui::Checkbox("Sync Hex Viewer Columns", &sync_mem_edit_cols);
+
+            ImPlot::ShowColormapSelector("Colormap");
         }
         ImGui::End();
 
