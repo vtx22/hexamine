@@ -1,0 +1,3 @@
+[submodule "src/ImStyles"]
+	path = src/ImStyles
+	url = https://github.com/vtx22/ImStyles.git
