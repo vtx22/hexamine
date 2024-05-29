@@ -78,8 +78,6 @@ int main(int argc, char *argv[])
     ImGui::CreateContext();
     ImPlot::CreateContext();
 
-    static MemoryEditor mem_edit;
-
     sf::Clock deltaClock;
     while (window.isOpen())
     {
@@ -156,7 +154,9 @@ int main(int argc, char *argv[])
             ImGui::BeginDisabled();
         }
 
-        mem_edit.DrawWindow("Hex Viewer", data.data(), data.size());
+        static MemoryEditor mem_edit;
+        mem_edit.DrawWindow("Hex Viewer", data.data(), actual_data_size);
+
         if (sync_mem_edit_cols)
         {
             mem_edit.Cols = cols;
@@ -246,9 +246,6 @@ void calculate_new_ticks()
     // Fill last row with 0 if there is space left
     if (actual_data_size < (size_t)(rows * cols))
     {
-        for (size_t i = 0; i < (rows * cols - actual_data_size); i++)
-        {
-            data.push_back(0);
-        }
+        data.resize(rows * cols, 0);
     }
 }
