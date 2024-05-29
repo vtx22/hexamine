@@ -1,7 +1,7 @@
 #ifndef HEXAMINE_CONFIG_H
 #define HEXAMINE_CONFIG_H
 
-#define HEXAMINE_VERSION "v2.0"
+#define HEXAMINE_VERSION "v2.1"
 
 #define HEXAMINE_MAX_FPS 60
 #define HEXAMINE_VSYNC true
