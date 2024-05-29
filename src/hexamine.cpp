@@ -25,6 +25,7 @@
 
 #include "hexamine_config.h"
 #include "imgui_memory_editor.h"
+#include "imstyles.h"
 
 std::vector<uint8_t> data;
 std::vector<std::string> x_ticks, y_ticks;
@@ -77,6 +78,8 @@ int main(int argc, char *argv[])
 
     ImGui::CreateContext();
     ImPlot::CreateContext();
+
+    set_style(ULTRA_DARK);
 
     sf::Clock deltaClock;
     while (window.isOpen())
