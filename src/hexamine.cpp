@@ -74,7 +74,15 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    ImGuiIO &io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.Fonts->Clear();
+    io.Fonts->AddFontFromFileTTF("opensans.ttf", 20);
+    if (!ImGui::SFML::UpdateFontTexture())
+    {
+        std::cout << "Could not load font!\n";
+        return -1;
+    }
 
     ImGui::CreateContext();
     ImPlot::CreateContext();
