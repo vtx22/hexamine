@@ -70,6 +70,8 @@ int main(int argc, char *argv[])
     window.setFramerateLimit(HEXAMINE_MAX_FPS);
     window.setVerticalSyncEnabled(HEXAMINE_VSYNC);
 
+    ::ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);
+
     if (!ImGui::SFML::Init(window))
     {
         std::cerr << "IMGUI SFML Window Init failed!" << std::endl;
