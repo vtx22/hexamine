@@ -15,6 +15,7 @@ Download and run `hexamine.exe` from your command line. Pass the path to your bi
 ```sh
 .\hexamine.exe <path-to-bin>
 ```
+Or simply open `hexamine.exe` and select your binary file using the file explorer.
 
 ## Limitations
 - The autoupdate interval is OS dependent as it checks for the last file change (1 second resolution on Windows) 
