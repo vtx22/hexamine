@@ -1,7 +1,7 @@
 #ifndef HEXAMINE_CONFIG_H
 #define HEXAMINE_CONFIG_H
 
-constexpr const char* HEXAMINE_VERSION = "v2.1";
+constexpr const char* HEXAMINE_VERSION = "v2.2";
 
 constexpr unsigned int HEXAMINE_MAX_FPS = 60;
 constexpr bool HEXAMINE_VSYNC = true;
