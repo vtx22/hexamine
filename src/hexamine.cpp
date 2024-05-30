@@ -63,7 +63,9 @@ int main(int argc, char *argv[])
         calculate_new_ticks();
     }
 
-    sf::RenderWindow window(sf::VideoMode(1280, 720), std::string("hexamine - ") + HEXAMINE_VERSION);
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = HEXAMINE_ANTIALIASING_LEVEL;
+    sf::RenderWindow window(sf::VideoMode(1280, 720), std::string("hexamine - ") + HEXAMINE_VERSION, sf::Style::Default, settings);
 
     window.setFramerateLimit(HEXAMINE_MAX_FPS);
     window.setVerticalSyncEnabled(HEXAMINE_VSYNC);
