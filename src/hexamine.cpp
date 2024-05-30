@@ -127,8 +127,15 @@ int main(int argc, char *argv[])
         {
             if (ImGui::BeginMenu("File"))
             {
-                if (ImGui::MenuItem("Open", "Ctrl+O"))
+                if (ImGui::MenuItem("Open", ""))
                 {
+                    std::string path = open_file_explorer(0);
+                    if (fr.update_data(path) == FR_SUCCESS)
+                    {
+                        data = fr.get_file_data();
+                        actual_data_size = data.size();
+                        calculate_new_ticks();
+                    }
                 }
 
                 ImGui::EndMenu();

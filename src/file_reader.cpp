@@ -35,6 +35,7 @@ int FileReader::read_file()
 int FileReader::update_data(std::string path)
 {
     _path = path;
+    _last_modified = 0;
     return update_data();
 }
 

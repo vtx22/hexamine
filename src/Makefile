@@ -10,5 +10,5 @@ compile:
 	$(CCX) $(CFLAGS) -Isfml/include -I./imgui-sfml/ -I./imgui/ -I./implot/ -I./ImStyles/ -c ./*.cpp imgui/*.cpp imgui-sfml/*cpp implot/*.cpp
 
 link: 
-	$(CCX) $(CFLAGS) *.o -o $(NAME) -Lsfml/lib -Limgui-sfml/ -Limgui/ -Limplot/ -lsfml-graphics -lsfml-window -lsfml-system -lOpengl32
+	$(CCX) $(CFLAGS) *.o -o $(NAME) -Lsfml/lib -Limgui-sfml/ -Limgui/ -Limplot/ -lsfml-graphics -lsfml-window -lsfml-system -lOpengl32 -lcomdlg32
 
